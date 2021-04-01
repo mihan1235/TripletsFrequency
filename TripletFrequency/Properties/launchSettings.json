@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TripletFrequency": {
+      "commandName": "Project",
+      "commandLineArgs": " подготовленная"
+    }
+  }
+}
