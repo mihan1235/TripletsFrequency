@@ -8,7 +8,11 @@ namespace Lib1
 {
     public class TripletFind
     {
-        static char[] def_exl_arr = { ' ', '-', '"', ':', ';' };
+        static char[] def_exl_arr = { ' ', '-', '"', ':', ';', '?', 
+            '!', '.', ',', '\u00BB','\'', '(', ')', '\u0027',
+        '\u201C', '\u2026', '\u00AB' , '0', '1', '2', '3',
+        '4', '5', '6', '7', '8', '9', '\u201E', '\u2013', '/',
+        '@', '#', '$', '&','%'};
 
         static string ReadTriplet(string word, int offset)
         {
@@ -27,8 +31,9 @@ namespace Lib1
             return sb.ToString();
         }
 
-        static void FindTripletsWord(SortedDictionary<string,int> hst, string word)
+        static void FindTripletsWord(SortedDictionary<string,int> hst, string inpt)
         {
+            string word = inpt.ToLower();
             int offset = 0;
             for (int i = offset; i < word.Length; i += 3)
             {
@@ -81,11 +86,11 @@ namespace Lib1
             string[] words;
             if (exlude == null)
             {
-                words = line.Split(def_exl_arr);
+                words = line.Split(def_exl_arr, StringSplitOptions.None);
             }
             else
             {
-                words = line.Split(exlude);
+                words = line.Split(exlude, StringSplitOptions.RemoveEmptyEntries);
             }
             foreach(var word in words)
             {
