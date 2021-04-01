@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace TripletFrequency
 {
@@ -58,12 +59,31 @@ namespace TripletFrequency
             {
                 using (StreamReader stream = File.OpenText(FileName))
                 {
-                    string line = null;
-                    while ((line = stream.ReadLine()) != null)
+                    Object stream_lock = new object();
+                    Task[] tasks = new Task[2];
+                   for(int i =0; i < tasks.Length; i++)
                     {
-                        
-                        Lib1.TripletFind.FindTriplets(hst, line);
+                        tasks[i] = new Task(() =>
+                        {
+                            string line = "";
+                            while (line != null)
+                            {
+                                lock (stream_lock)
+                                {
+                                    line = stream.ReadLineAsync().Result;
+                                }
+                                if (line == null) break;
+                                Lib1.TripletFind.FindTriplets(hst, line);
+                            }
+                        });
                     }
+                    foreach (var obj in tasks)
+                    {
+                        obj.Start();
+                    }
+
+                    Task.WaitAll(tasks);
+                    
                 }
             }
             catch (Exception ex)

@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Lib1
 {
+   
     public class TripletFind
     {
+
         static char[] def_exl_arr = { ' ', '-', '"', ':', ';', '?', 
             '!', '.', ',', '\u00BB','\'', '(', ')', '\u0027',
         '\u201C', '\u2026', '\u00AB' , '0', '1', '2', '3',
         '4', '5', '6', '7', '8', '9', '\u201E', '\u2013', '/',
         '@', '#', '$', '&','%'};
 
+        static Object lock_object = new Object();
         static string ReadTriplet(string word, int offset)
         {
             StringBuilder sb = new StringBuilder(); 
@@ -31,54 +35,28 @@ namespace Lib1
             return sb.ToString();
         }
 
-        static void FindTripletsWord(SortedDictionary<string,int> hst, string inpt)
+        static void ReadTriplets(SortedDictionary<string, int> hst, string word, int offset)
         {
-            string word = inpt.ToLower();
-            int offset = 0;
+            
             for (int i = offset; i < word.Length; i += 3)
             {
                 string tr = ReadTriplet(word, i);
                 if (tr == null) break;
-                if (hst.ContainsKey(tr))
+                lock (lock_object)
                 {
-                    hst[tr] = hst[tr] + 1;
+                    if (hst.ContainsKey(tr))
+                    {
+                        hst[tr] = hst[tr] + 1;
+                    }
+                    else
+                    {
+                        hst.Add(tr, 0);
+                    }
                 }
-                else
-                {
-                    hst.Add(tr, 0);
-                } 
-            }
-
-            offset = 1;
-            for (int i = offset; i < word.Length; i += 3)
-            {
-                string tr = ReadTriplet(word, i);
-                if (tr == null) break;
-                if (hst.ContainsKey(tr))
-                {
-                    hst[tr] = hst[tr] + 1;
-                }
-                else
-                {
-                    hst.Add(tr, 0);
-                }
-            }
-
-            offset = 2;
-            for (int i = offset; i < word.Length; i += 3)
-            {
-                string tr = ReadTriplet(word, i);
-                if (tr == null) break;
-                if (hst.ContainsKey(tr))
-                {
-                    hst[tr] = hst[tr] + 1;
-                }
-                else
-                {
-                    hst.Add(tr, 0);
-                }
+                
             }
         }
+
         public static void FindTriplets(SortedDictionary<string, int> hst, 
             string line, char[] exlude = null)
         {
@@ -92,13 +70,17 @@ namespace Lib1
             {
                 words = line.Split(exlude, StringSplitOptions.RemoveEmptyEntries);
             }
-            foreach(var word in words)
-            {
-                if (word.Length > 2)
+
+
+            Parallel.ForEach(words,(string obj)=> {
+                if (obj.Length > 2)
                 {
-                    FindTripletsWord(hst, word);
+                    string word = obj.ToLower();
+                    ReadTriplets(hst, word, 0);
+                    ReadTriplets(hst, word, 1);
+                    ReadTriplets(hst, word, 2);
                 }
-            }
+            });
         }
 
         public enum Mode

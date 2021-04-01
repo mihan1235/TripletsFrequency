@@ -2,7 +2,7 @@
   "profiles": {
     "TripletFrequency": {
       "commandName": "Project",
-      "commandLineArgs": "Rouling_Shelkopryad.385240.txt"
+      "commandLineArgs": "djavol-nosit-prada.txt"
     }
   }
 }
