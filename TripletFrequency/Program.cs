@@ -60,7 +60,7 @@ namespace TripletFrequency
                 using (StreamReader stream = File.OpenText(FileName))
                 {
                     Object stream_lock = new object();
-                    Task[] tasks = new Task[2];
+                    Task[] tasks = new Task[Environment.ProcessorCount];
                    for(int i =0; i < tasks.Length; i++)
                     {
                         tasks[i] = new Task(() =>

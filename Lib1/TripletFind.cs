@@ -72,7 +72,18 @@ namespace Lib1
             }
 
 
-            Parallel.ForEach(words,(string obj)=> {
+            //Parallel.ForEach(words,(string obj)=> {
+            //    if (obj.Length > 2)
+            //    {
+            //        string word = obj.ToLower();
+            //        ReadTriplets(hst, word, 0);
+            //        ReadTriplets(hst, word, 1);
+            //        ReadTriplets(hst, word, 2);
+            //    }
+            //});
+
+           foreach( string obj in words){
+               
                 if (obj.Length > 2)
                 {
                     string word = obj.ToLower();
@@ -80,7 +91,7 @@ namespace Lib1
                     ReadTriplets(hst, word, 1);
                     ReadTriplets(hst, word, 2);
                 }
-            });
+            };
         }
 
         public enum Mode
