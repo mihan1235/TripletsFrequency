@@ -2,7 +2,7 @@
   "profiles": {
     "TripletFrequency": {
       "commandName": "Project",
-      "commandLineArgs": "djavol-nosit-prada.txt"
+      "commandLineArgs": "test_file.txt"
     }
   }
 }

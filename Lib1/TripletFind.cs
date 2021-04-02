@@ -15,7 +15,7 @@ namespace Lib1
             '!', '.', ',', '\u00BB','\'', '(', ')', '\u0027',
         '\u201C', '\u2026', '\u00AB' , '0', '1', '2', '3',
         '4', '5', '6', '7', '8', '9', '\u201E', '\u2013', '/',
-        '@', '#', '$', '&','%'};
+        '@', '#', '$', '&','%', '}','{','[',']'};
 
         static Object lock_object = new Object();
         static string ReadTriplet(string word, int offset)
