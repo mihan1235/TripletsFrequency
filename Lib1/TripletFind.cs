@@ -35,7 +35,7 @@ namespace Lib1
             return sb.ToString();
         }
 
-        static void ReadTriplets(SortedDictionary<string, int> hst, string word, int offset)
+        static void ReadTriplets(Dictionary<string, int> hst, string word, int offset)
         {
             
             for (int i = offset; i < word.Length; i += 3)
@@ -57,7 +57,7 @@ namespace Lib1
             }
         }
 
-        public static void FindTriplets(SortedDictionary<string, int> hst, 
+        public static void FindTriplets(Dictionary<string, int> hst, 
             string line, char[] exlude = null)
         {
             if (line.Length < 3) return;

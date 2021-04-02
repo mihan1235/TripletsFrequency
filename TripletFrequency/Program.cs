@@ -54,7 +54,7 @@ namespace TripletFrequency
             //    }
             //}
             int time = Environment.TickCount;
-            SortedDictionary<string, int> hst = new SortedDictionary<string, int>();
+            Dictionary<string, int> hst = new Dictionary<string, int>();
             try
             {
                 using (StreamReader stream = File.OpenText(FileName))
